@@ -1,17 +1,17 @@
 class Tool {
-    constructor() {}
+	constructor() {}
 
-    // called when the user starts dragging
-    begin(x, y, lc) {}
+	// called when the user starts dragging
+	begin(x, y, lc) {}
 
-    // called when the user moves while dragging
-    continue(x, y, lc) {}
+	// called when the user moves while dragging
+	continue(x, y, lc) {}
 
-    // called when the user finishes dragging
-    end(x, y, lc) {}
+	// called when the user finishes dragging
+	end(x, y, lc) {}
 
-    didBecomeActive(lc) {}
-    willBecomeInactive(lc) {}
+	didBecomeActive(lc) {}
+	willBecomeInactive(lc) {}
 }
 
 Tool.prototype.name = null; // for debugging
@@ -20,30 +20,30 @@ Tool.prototype.usesSimpleAPI = true;
 Tool.prototype.optionsStyle = null; // kind of options GUI to display
 
 class ToolWithStroke extends Tool {
-    constructor(lc) {
-        super();
-        this.strokeWidth = lc.opts.defaultStrokeWidth;
-    }
+	constructor(lc) {
+		super();
+		this.strokeWidth = lc.opts.defaultStrokeWidth;
+	}
 
-    didBecomeActive(lc) {
-        const unsubscribeFuncs = [];
-        this.unsubscribe = () => {
-            unsubscribeFuncs.map(func => func());
-        };
+	didBecomeActive(lc) {
+		const unsubscribeFuncs = [];
+		this.unsubscribe = () => {
+			unsubscribeFuncs.map((func) => func());
+		};
 
-        unsubscribeFuncs.push(
-            lc.on("setStrokeWidth", strokeWidth => {
-                this.strokeWidth = strokeWidth;
-                lc.trigger("toolDidUpdateOptions");
-            }),
-        );
-    }
+		unsubscribeFuncs.push(
+			lc.on('setStrokeWidth', (strokeWidth) => {
+				this.strokeWidth = strokeWidth;
+				lc.trigger('toolDidUpdateOptions');
+			}),
+		);
+	}
 
-    willBecomeInactive(lc) {
-        this.unsubscribe();
-    }
+	willBecomeInactive(lc) {
+		this.unsubscribe();
+	}
 }
 
-ToolWithStroke.prototype.optionsStyle = "stroke-width";
+ToolWithStroke.prototype.optionsStyle = 'stroke-width';
 
-export {Tool, ToolWithStroke};
+export { Tool, ToolWithStroke };

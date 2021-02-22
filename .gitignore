@@ -1,10 +1,24 @@
-.sass-cache
-literallycanvas/
-*.sublime-workspace
-node_modules/
-*.log
-package-lock.json
-.DS_Store
-lib/
+# Packages
+node_modules
+**/node_modules
+
+# Build artifacts
 dist/
+typings/
+tsconfig.tsbuildinfo
+
+# Log files
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Tests
 coverage/
+
+# Miscellaneous
+.tmp/

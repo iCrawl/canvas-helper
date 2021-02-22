@@ -1,63 +1,41 @@
-import {Tool} from "./base";
+import { Tool } from './base';
 
 class Pan extends Tool {
-    didBecomeActive(lc) {
-        const unsubscribeFuncs = [];
-        this.unsubscribe = (function(_this) {
-            return function() {
-                let func, i, len, results;
-                results = [];
-                for (i = 0, len = unsubscribeFuncs.length; i < len; i++) {
-                    func = unsubscribeFuncs[i];
-                    results.push(func());
-                }
-                return results;
-            };
-        })(this);
-        unsubscribeFuncs.push(
-            lc.on(
-                "lc-pointerdown",
-                (function(_this) {
-                    return function(arg) {
-                        let rawX, rawY;
-                        (rawX = arg.rawX), (rawY = arg.rawY);
-                        _this.oldPosition = lc.position;
-                        return (_this.pointerStart = {
-                            x: rawX,
-                            y: rawY,
-                        });
-                    };
-                })(this),
-            ),
-        );
-        return unsubscribeFuncs.push(
-            lc.on(
-                "lc-pointerdrag",
-                (function(_this) {
-                    return function(arg) {
-                        let dp, rawX, rawY;
-                        (rawX = arg.rawX), (rawY = arg.rawY);
-                        dp = {
-                            x: (rawX - _this.pointerStart.x) * lc.backingScale,
-                            y: (rawY - _this.pointerStart.y) * lc.backingScale,
-                        };
-                        return lc.setPan(
-                            _this.oldPosition.x + dp.x,
-                            _this.oldPosition.y + dp.y,
-                        );
-                    };
-                })(this),
-            ),
-        );
-    }
+	didBecomeActive(lc) {
+		const unsubscribeFuncs = [];
+		this.unsubscribe = () => {
+			unsubscribeFuncs.map((func) => func());
+		};
 
-    willBecomeInactive(lc) {
-        return this.unsubscribe();
-    }
+		unsubscribeFuncs.push(
+			lc.on('lc-pointerdown', ({ rawX, rawY }) => {
+				this.oldPosition = lc.position;
+				this.pointerStart = { x: rawX, y: rawY };
+			}),
+		);
+
+		unsubscribeFuncs.push(
+			lc.on('lc-pointerdrag', ({ rawX, rawY }) => {
+				// okay, so this is really bad:
+				// lc.position is "buggy screen coordinates": correct on non-retina,
+				// probably wrong on retina. compensate here; in v0.5 we should put the
+				// offset in drawing coordinates.
+				const dp = {
+					x: (rawX - this.pointerStart.x) * lc.backingScale,
+					y: (rawY - this.pointerStart.y) * lc.backingScale,
+				};
+				lc.setPan(this.oldPosition.x + dp.x, this.oldPosition.y + dp.y);
+			}),
+		);
+	}
+
+	willBecomeInactive(lc) {
+		return this.unsubscribe();
+	}
 }
 
-Pan.prototype.name = "Pan";
-Pan.prototype.iconName = "pan";
+Pan.prototype.name = 'Pan';
+Pan.prototype.iconName = 'pan';
 Pan.prototype.usesSimpleAPI = false;
 
 export default Pan;

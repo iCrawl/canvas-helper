@@ -1,44 +1,41 @@
-import {Tool} from "./base";
+import { Tool } from './base';
 
-const getPixel = function(ctx, arg) {
-    var pixel, x, y;
-    (x = arg.x), (y = arg.y);
-    pixel = ctx.getImageData(x, y, 1, 1).data;
-    if (pixel[3]) {
-        return "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
-    } else {
-        return null;
-    }
+const getPixel = (ctx, { x, y }) => {
+	const pixel = ctx.getImageData(x, y, 1, 1).data;
+	if (pixel[3]) {
+		return `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+	}
+	return null;
 };
 
 class Eyedropper extends Tool {
-    readColor(x, y, lc) {
-        var canvas, color, newColor, offset;
-        offset = lc.getDefaultImageRect();
-        canvas = lc.getImage();
-        newColor = getPixel(canvas.getContext("2d"), {
-            x: x - offset.x,
-            y: y - offset.y,
-        });
-        color = newColor || lc.getColor("background");
-        if (this.strokeOrFill === "stroke") {
-            return lc.setColor("primary", newColor);
-        } else {
-            return lc.setColor("secondary", newColor);
-        }
-    }
+	constructor(lc) {
+		super(lc);
+		this.strokeOrFill = 'stroke';
+	}
 
-    begin(x, y, lc) {
-        return this.readColor(x, y, lc);
-    }
+	readColor(x, y, lc) {
+		const offset = lc.getDefaultImageRect();
+		const canvas = lc.getImage();
+		const newColor = getPixel(canvas.getContext('2d'), { x: x - offset.x, y: y - offset.y });
+		const color = newColor || lc.getColor('background');
+		if (this.strokeOrFill === 'stroke') {
+			return lc.setColor('primary', newColor);
+		}
+		return lc.setColor('secondary', newColor);
+	}
 
-    continue(x, y, lc) {
-        return this.readColor(x, y, lc);
-    }
+	begin(x, y, lc) {
+		return this.readColor(x, y, lc);
+	}
+
+	continue(x, y, lc) {
+		return this.readColor(x, y, lc);
+	}
 }
 
-Eyedropper.prototype.name = "Eyedropper";
-Eyedropper.prototype.iconName = "eyedropper";
-Eyedropper.prototype.optionsStyle = "stroke-or-fill";
+Eyedropper.prototype.name = 'Eyedropper';
+Eyedropper.prototype.iconName = 'eyedropper';
+Eyedropper.prototype.optionsStyle = 'stroke-or-fill';
 
 export default Eyedropper;

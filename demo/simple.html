@@ -1,20 +1,20 @@
 <!doctype html>
 <html>
   <head>
-    <title>Literally Canvas Core - Simple Example</title>
+    <title>Canvas Helper - Simple Example</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no" />
     <style>
       body {
         background: #EEE;
       }
-      .literally {
+      .canvas-helper {
         width: 400px;
         height: 400px;
         position: relative;
         margin-bottom: 8px;
       }
-      .literally canvas {
+      .canvas-helper canvas {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -24,53 +24,53 @@
   </head>
 
   <body>
-    <div class="literally"></div>
-    <button onclick="demoLC.setColor('primary', '#000000')">Black</button>
-    <button onclick="demoLC.setColor('primary', '#ff0000')">Red</button>
-    <button onclick="demoLC.setColor('primary', '#00ff00')">Green</button>
-    <button onclick="demoLC.setColor('primary', '#0000ff')">Blue</button>
+    <div class="canvas-helper"></div>
+    <button onclick="demoCH.setColor('primary', '#000000')">Black</button>
+    <button onclick="demoCH.setColor('primary', '#ff0000')">Red</button>
+    <button onclick="demoCH.setColor('primary', '#00ff00')">Green</button>
+    <button onclick="demoCH.setColor('primary', '#0000ff')">Blue</button>
     <br>
-    <button onclick="demoLC.trigger('setStrokeWidth', 10)">10px</button>
-    <button onclick="demoLC.trigger('setStrokeWidth', 20)">20px</button>
-    <button onclick="demoLC.trigger('setStrokeWidth', 30)">30px</button>
+    <button onclick="demoCH.trigger('setStrokeWidth', 10)">10px</button>
+    <button onclick="demoCH.trigger('setStrokeWidth', 20)">20px</button>
+    <button onclick="demoCH.trigger('setStrokeWidth', 30)">30px</button>
     <br>
-    <button onclick="demoLC.setTool(Pencil)">Pencil</button>
-    <button onclick="demoLC.setTool(Line)">Line</button>
-    <button onclick="demoLC.setTool(Eraser)">Eraser</button>
-    <button onclick="demoLC.setTool(Ellipse)">Ellipse</button>
-    <button onclick="demoLC.setTool(Pan)">Pan</button>
-    <button onclick="demoLC.setTool(Rectangle)">Rectangle</button>
-    <button onclick="demoLC.setTool(SelectShape)">SelectShape</button>
-    <button onclick="demoLC.setTool(Text)">Text</button>
-    <button onclick="demoLC.setTool(Eyedropper)">Eyedropper</button>
-    <button onclick="demoLC.setTool(Polygon)">Polygon</button>
+    <button onclick="demoCH.setTool(Pencil)">Pencil</button>
+    <button onclick="demoCH.setTool(Line)">Line</button>
+    <button onclick="demoCH.setTool(Eraser)">Eraser</button>
+    <button onclick="demoCH.setTool(Ellipse)">Ellipse</button>
+    <button onclick="demoCH.setTool(Pan)">Pan</button>
+    <button onclick="demoCH.setTool(Rectangle)">Rectangle</button>
+    <button onclick="demoCH.setTool(SelectShape)">SelectShape</button>
+    <button onclick="demoCH.setTool(Text)">Text</button>
+    <button onclick="demoCH.setTool(Eyedropper)">Eyedropper</button>
+    <button onclick="demoCH.setTool(Polygon)">Polygon</button>
 
-    <script src="../dist/bundle.js"></script>
+    <script src="../dist/canvas-helper.min.js"></script>
 
     <script type="text/javascript">
       
-      const LiterallyCanvas = LC.LiterallyCanvas;
-      console.log(LC, '=====LiterallyCanvas')
+      const CanvasHelper = CH.CanvasHelper;
+      console.log(CH, '=====CanvasHelper')
       const mainDiv = document.querySelector('.literally');
-      const lc = new LiterallyCanvas(mainDiv, {
-        ...LC.defaultOptions,
+      const ch = new CanvasHelper(mainDiv, {
+        ...CH.defaultOptions,
         defaultStrokeWidth: 10,
         backgroundColor: '#FFF',
-        tools:[LC.Pencil,LC.Line,LC.Eraser]
+        tools:[CH.Pencil,CH.Line,CH.Eraser]
       });
-      console.log(lc)
-      window.demoLC = lc;
+      console.log(ch)
+      window.demoCH = ch;
       // Tools
-      window.Pencil = new LC.Pencil(lc);
-      window.Line = new LC.Line(lc);
-      window.Eraser = new LC.Eraser(lc);
-      window.Ellipse = new LC.Ellipse(lc);
-      window.Pan  = new LC.Pan(lc);
-      window.Rectangle  = new LC.Rectangle(lc);
-      window.SelectShape  = new LC.SelectShape(lc);
-      window.Eyedropper  = new LC.Eyedropper(lc);
-      window.Text  = new LC.Text(lc);
-      window.Polygon  = new LC.Polygon(lc);
+      window.Pencil = new CH.Pencil(ch);
+      window.Line = new CH.Line(ch);
+      window.Eraser = new CH.Eraser(ch);
+      window.Ellipse = new CH.Ellipse(ch);
+      window.Pan  = new CH.Pan(ch);
+      window.Rectangle  = new CH.Rectangle(ch);
+      window.SelectShape  = new CH.SelectShape(ch);
+      window.Eyedropper  = new CH.Eyedropper(ch);
+      window.Text  = new CH.Text(ch);
+      window.Polygon  = new CH.Polygon(ch);
     </script>
   </body>
 </html>

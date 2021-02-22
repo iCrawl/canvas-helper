@@ -1,10 +1,10 @@
 let strings = {};
 
-const localize = localStrings => (strings = localStrings);
+const localize = (localStrings) => (strings = localStrings);
 
-const _ = function(string) {
-    const translation = strings[string];
-    return translation || string;
+const _ = (string) => {
+	const translation = strings[string];
+	return translation || string;
 };
 
-export {localize, _};
+export { localize, _ };
